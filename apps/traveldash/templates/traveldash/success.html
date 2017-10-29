@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Success</title>
+  </head>
+  <body>
+    <h1>Hello, {{ homeuser.name }}</h1>
+    <a href="{%url 'plans:additem' %}">Add Travel Plan</a>
+    <a href="{%url 'plans:logout' %}">Logout</a>
+
+         {% if messages %}
+         <div class="messages">
+             {% for message in messages %}
+             <p>{{ message }}</p>
+             {% endfor %}
+         </div>
+         {% endif %}
+
+     <div class="travelplans">
+       <h2>Your Wish list</h2>
+       <table>
+         <thead>
+           <tr>
+             <th>Destination</th>
+             <th>Travel Start Date</th>
+             <th>Travel End Date</th>
+             <th>Plan</th>
+           </tr>
+           </thead>
+           <tbody>
+                  {% for travel in users %}
+               <tr>
+                   <td><a href="{%url 'plans:planshow' id=user.id %}">{{ user.item }}</a></td>
+                   <td>{{ user.user.first.name }}</td>
+                   <td>{{ travel.start_date|date:'M d, Y' }}</td>
+                   <td>{{ travel.end_date|date:'M d, Y' }}</td>
+                   <td>{{ travel.plan_desc}}</td>
+               </tr>
+                  {% endfor %}
+
+           </tbody>
+         </table>
+
+     </div>
+
+     <div class="otherwishes">
+        <h2>Other User' Wish List</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Destination</th>
+              <th>Travel Start Date</th>
+              <th>Travel End Date</th>
+              <th>Join</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for other in others %}
+
+              <tr>
+                  <td>{{ other.user.first.name }}</td>
+                  <td><a href="{%url 'plans:planshow' id=other.id %}">{{ other.planname }}</a></td>
+                  <td>{{ other.start_date|date:'M d, Y' }}<td>
+                  <td>{{ other.end_date|date:'M d, Y' }}<td>
+                  <td><a href="{%url 'plans:planlistadd' id=other.id %}">Join{{homeuser.id}},{{other.id}}</a><td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+           </table>
+
+      </div>
+
+     </body>
+ </html>
